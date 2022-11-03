@@ -11,6 +11,7 @@ const eleScelta= document.querySelector ('.choise');
 const eleScelta1= document.querySelector ('.choise1');
 const eleScelta2= document.querySelector ('.choise2');
 const eleScelta3= document.querySelector ('.choise3');
+const arrRandoms = []
 
 
 
@@ -37,20 +38,7 @@ elePlay.addEventListener('click', function(){
     const sSquare=Math.sqrt(nCelle);
     eleGrid.style.setProperty('--square',sSquare);
     for (let i=1; i<=nCelle; i++){
-        const arrRandom=[];
-        
-        let needRandom=true;
-        do{
-            const numRandom= getRandomInteger(1,nCelle);
-            if (!arrRandom.includes(numRandom)){
-                arrRandom.push(numRandom);
-                needRandom=false;
-
-            }
-        }while (needRandom)
-        
-            
-    
+          
         const eleCell=document.createElement('div');
         eleCell.classList.add('cell');
         eleGrid.append(eleCell);
@@ -64,8 +52,19 @@ elePlay.addEventListener('click', function(){
         })
 
     }
-    
-    function getRandomInteger(min,max){
-        return Math.floor(Math.random()*(max-min+1))+min;
+    for (let i = 1; i <= 16; i++) {
+        let randomNumber;
+        do {
+            randomNumber = getRandomInteger(1, nCelle); 
+        } while (arrRandoms.includes(randomNumber))
+        arrRandoms.push(randomNumber);
     }
+    
+    console.log(arrRandoms);
+    
+    
+    function getRandomInteger(min, max) {
+        return Math.floor(Math.random() * (max - min + 1) ) + min;
+    }
+    
 });
