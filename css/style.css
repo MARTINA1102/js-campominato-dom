@@ -68,6 +68,9 @@ footer{
     display: none;
 }
 
-.boom{
+.cell.mine{
     background-color: brown;
+}
+.cell.no-mine{
+    background-color: chartreuse;
 }

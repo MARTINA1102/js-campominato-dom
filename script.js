@@ -11,7 +11,7 @@ const eleScelta= document.querySelector ('.choise');
 const eleScelta1= document.querySelector ('.choise1');
 const eleScelta2= document.querySelector ('.choise2');
 const eleScelta3= document.querySelector ('.choise3');
-const arrRandoms = []
+let arrMines;
 
 
 
@@ -34,6 +34,7 @@ elePlay.addEventListener('click', function(){
         
     }*/
     let nCelle= parseInt(eleScelta.value);
+    arrMines= generateMines(16,1,nCelle);
 
     const sSquare=Math.sqrt(nCelle);
     eleGrid.style.setProperty('--square',sSquare);
@@ -45,26 +46,38 @@ elePlay.addEventListener('click', function(){
         eleCell.innerHTML=i;
         
     
-        eleCell.addEventListener('click',function(){
-            this.classList.toggle('active');
-        
+        eleCell.addEventListener('click',toggleCell);
 
-        })
-
+    } 
+});
+function getRandomInteger(min, max) {
+    return Math.floor(Math.random() * (max - min + 1) ) + min;
+}
+function toggleCell(){
+    const cellNumber=parseInt(this.innerHTML);
+    if (arrMines.includes(cellNumber)){
+        this.classList.add('mine');
+        const listCells=eleGrid.querySelectorAll('.cell');
+        for(let i=0;i<listCells.length;i++){
+            const cellNumber=parseInt(listCells[i].innerHTML);
+            if(arrMines.includes(cellNumber)){
+                listCells[i].classList.add('mine');
+            }
+            listCells[i].removeEventListener('click',toggleCell);
+        }
+    }else {
+        this.classList.add('no-mine');
     }
-    for (let i = 1; i <= 16; i++) {
-        let randomNumber;
+}
+
+function generateMines(nMines,min,max){
+    const arrRandoms=[];
+    for (let i = 1; i <= 16; i++) {    
         do {
-            randomNumber = getRandomInteger(1, nCelle); 
+            randomNumber = getRandomInteger(min,max ); 
         } while (arrRandoms.includes(randomNumber))
         arrRandoms.push(randomNumber);
     }
-    
-    console.log(arrRandoms);
-    
-    
-    function getRandomInteger(min, max) {
-        return Math.floor(Math.random() * (max - min + 1) ) + min;
-    }
-    
-});
+    return arrRandoms;
+}
+
